@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brief Leap — AI Intelligence for Your Role</title>
+
+<!-- ═══════════════════════════════════════════════
+  TRACKING SETUP — REPLACE WITH YOUR ACTUAL IDs
+  
+  1. Google Analytics: Replace G-XXXXXXXXXX
+  2. Facebook Pixel:   Replace YOUR_PIXEL_ID
+  3. Mailchimp:        Replace YOUR_MAILCHIMP_URL
+  
+  See SETUP GUIDE at bottom of file for instructions
+═══════════════════════════════════════════════ -->
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LN6VJZGQ2F"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-LN6VJZGQ2F');
+
+  // ── TRACK CUSTOM EVENTS ──
+  function trackEvent(eventName, params) {
+    gtag('event', eventName, params);
+    console.log('[Analytics]', eventName, params);
+  }
+
+  // Track page view with UTM source
+  window.addEventListener('load', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const source = urlParams.get('utm_source') || 'direct';
+    const medium = urlParams.get('utm_medium') || 'none';
+    const campaign = urlParams.get('utm_campaign') || 'none';
+    trackEvent('page_view', { traffic_source: source, medium, campaign });
+    // Store UTM for signup attribution
+    sessionStorage.setItem('utm_source', source);
+    sessionStorage.setItem('utm_medium', medium);
+    sessionStorage.setItem('utm_campaign', campaign);
+  });
+</script>
+
+<!-- Facebook Pixel (optional) -->
+<script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', 'YOUR_PIXEL_ID');
+  fbq('track', 'PageView');
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink: #0F0F0F;
+  --ink-2: #1A1A1A;
+  --ink-3: #242424;
+  --paper: #FAFAF7;
+  --paper-2: #F2F2ED;
+  --paper-3: #E8E8E2;
+  --green: #1A6B4A;
+  --green-light: #2D9E6E;
+  --green-pale: #E8F5EF;
+  --green-border: rgba(26,107,74,0.2);
+  --muted: #737373;
+  --muted-light: #A3A3A3;
+  --border: rgba(0,0,0,0.08);
+  --border-dark: rgba(0,0,0,0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── GRAIN TEXTURE ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0; opacity: 0.6;
+}
+
+/* ── LAYOUT ── */
+.container { max-width: 1040px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.container-sm { max-width: 640px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 18px 0;
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+nav.scrolled {
+  background: rgba(250,250,247,0.94);
+  border-bottom-color: var(--border);
+  backdrop-filter: blur(16px);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1040px; margin: 0 auto; padding: 0 28px;
+}
+.logo {
+  font-family: 'Fraunces', serif;
+  font-size: 20px; font-weight: 700;
+  color: var(--ink); text-decoration: none;
+  letter-spacing: -0.5px;
+  display: flex; align-items: center; gap: 6px;
+}
+.logo-dot {
+  width: 7px; height: 7px;
+  background: var(--green);
+  border-radius: 50%;
+  display: inline-block;
+}
+.nav-links { display: flex; align-items: center; gap: 28px; }
+.nav-link {
+  font-size: 13px; color: var(--muted);
+  text-decoration: none; font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-link:hover { color: var(--ink); }
+.nav-cta {
+  background: var(--ink); color: var(--paper);
+  border: none; padding: 9px 20px;
+  border-radius: 6px; font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+  text-decoration: none;
+}
+.nav-cta:hover { background: var(--green); transform: translateY(-1px); }
+
+/* ── HERO ── */
+.hero {
+  padding: 130px 0 80px;
+  position: relative;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--green-pale);
+  border: 1px solid var(--green-border);
+  border-radius: 100px;
+  padding: 5px 14px;
+  font-size: 11px; font-weight: 600;
+  color: var(--green);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  font-family: 'DM Mono', monospace;
+}
+.tag-dot {
+  width: 5px; height: 5px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: blink 2s ease infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(40px, 6vw, 68px);
+  font-weight: 900;
+  line-height: 1.06;
+  letter-spacing: -2px;
+  color: var(--ink);
+  margin-bottom: 20px;
+  max-width: 720px;
+}
+.hero h1 em { font-style: italic; color: var(--green); }
+.hero-sub {
+  font-size: 17px; color: var(--muted);
+  line-height: 1.75; max-width: 520px;
+  margin-bottom: 36px; font-weight: 400;
+}
+
+/* ── SIGNUP FORM ── */
+.signup-box {
+  background: var(--ink);
+  border-radius: 16px;
+  padding: 28px;
+  max-width: 500px;
+  margin-bottom: 24px;
+}
+.signup-label {
+  font-size: 11px; font-weight: 600;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 1.5px; text-transform: uppercase;
+  font-family: 'DM Mono', monospace;
+  margin-bottom: 14px; display: block;
+}
+.signup-row { display: flex; gap: 8px; margin-bottom: 12px; }
+.signup-input {
+  flex: 1;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 13px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; color: #fff;
+  outline: none; transition: all 0.2s;
+}
+.signup-input::placeholder { color: rgba(255,255,255,0.3); }
+.signup-input:focus { border-color: var(--green-light); background: rgba(255,255,255,0.1); }
+.signup-select {
+  width: 100%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 13px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; color: #fff;
+  outline: none; transition: all 0.2s;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.3)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+.signup-select option { background: #1A1A1A; color: #fff; }
+.signup-select:focus { border-color: var(--green-light); }
+.signup-btn {
+  width: 100%;
+  background: var(--green);
+  color: #fff; border: none;
+  border-radius: 8px;
+  padding: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+  letter-spacing: 0.2px;
+}
+.signup-btn:hover { background: var(--green-light); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,107,74,0.3); }
+.signup-note {
+  font-size: 11px; color: rgba(255,255,255,0.25);
+  text-align: center; margin-top: 10px;
+  font-family: 'DM Mono', monospace;
+}
+.signup-success {
+  display: none;
+  background: var(--green-pale);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  font-size: 14px; color: var(--green);
+  align-items: center; gap: 10px;
+  margin-top: 12px;
+}
+.signup-success.show { display: flex; }
+
+/* ── PROOF BAR ── */
+.proof-bar {
+  display: flex; align-items: center; gap: 24px;
+  flex-wrap: wrap;
+}
+.proof-item { display: flex; align-items: center; gap: 7px; }
+.proof-check {
+  width: 16px; height: 16px;
+  background: var(--green-pale);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.proof-text { font-size: 13px; color: var(--muted); }
+
+/* ── DIVIDER ── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+/* ── HOW IT WORKS ── */
+.how { padding: 90px 0; }
+.section-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  color: var(--green); letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 10px; display: block;
+}
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 700; line-height: 1.15;
+  letter-spacing: -1px; color: var(--ink);
+  margin-bottom: 12px;
+}
+.section-sub {
+  font-size: 16px; color: var(--muted);
+  font-weight: 400; line-height: 1.7;
+  max-width: 480px; margin-bottom: 52px;
+}
+.steps-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  border: 1px solid var(--border-dark);
+  border-radius: 12px; overflow: hidden;
+}
+.step {
+  background: var(--paper-2);
+  padding: 32px 28px;
+  transition: background 0.2s;
+}
+.step:hover { background: var(--paper-3); }
+.step-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; font-weight: 500;
+  color: var(--green); letter-spacing: 1px;
+  margin-bottom: 14px; display: block;
+}
+.step h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: var(--ink); letter-spacing: -0.3px; }
+.step p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+/* ── DIGEST PREVIEW ── */
+.preview { padding: 0 0 90px; }
+.preview-inner {
+  background: var(--ink-2);
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.preview-bar {
+  background: var(--ink-3);
+  padding: 14px 20px;
+  display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.preview-dots { display: flex; gap: 5px; }
+.pd { width: 10px; height: 10px; border-radius: 50%; }
+.pd-r { background: #FF5F57; } .pd-y { background: #FFBD2E; } .pd-g { background: #28C840; }
+.preview-subject {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; color: rgba(255,255,255,0.3);
+  flex: 1; text-align: center;
+}
+.preview-body { padding: 28px 32px; }
+.preview-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 6px;
+}
+.preview-from {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; color: var(--green-light);
+  letter-spacing: 1px;
+}
+.preview-date { font-size: 11px; color: rgba(255,255,255,0.3); }
+.preview-title {
+  font-family: 'Fraunces', serif;
+  font-size: 20px; font-weight: 700;
+  color: #fff; margin-bottom: 4px; line-height: 1.3;
+}
+.preview-badge {
+  display: inline-block;
+  background: rgba(45,158,110,0.15);
+  border: 1px solid rgba(45,158,110,0.3);
+  border-radius: 100px;
+  padding: 2px 10px;
+  font-size: 10px; font-weight: 600;
+  color: var(--green-light);
+  letter-spacing: 0.5px; margin-bottom: 20px;
+  font-family: 'DM Mono', monospace;
+}
+.preview-item {
+  padding: 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px; margin-bottom: 10px;
+}
+.preview-item-head {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 12px; margin-bottom: 8px;
+}
+.preview-item-title { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.4; }
+.preview-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; color: var(--green-light);
+  background: rgba(45,158,110,0.1);
+  padding: 2px 7px; border-radius: 4px;
+  white-space: nowrap; flex-shrink: 0;
+}
+.preview-what { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.6; margin-bottom: 8px; }
+.preview-sowhat {
+  font-size: 12px; color: rgba(45,158,110,0.9);
+  background: rgba(45,158,110,0.07);
+  border-left: 2px solid var(--green-light);
+  padding: 8px 10px; border-radius: 0 4px 4px 0; line-height: 1.55;
+}
+.preview-sowhat strong {
+  display: block; font-size: 9px;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--green-light); margin-bottom: 3px;
+  font-family: 'DM Mono', monospace;
+}
+
+/* ── PRICING ── */
+.pricing { padding: 90px 0; background: var(--paper-2); }
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 12px; margin-top: 48px; align-items: start;
+}
+.price-card {
+  background: var(--paper);
+  border: 1px solid var(--border-dark);
+  border-radius: 14px; padding: 28px 24px;
+  position: relative; transition: transform 0.2s, box-shadow 0.2s;
+}
+.price-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+.price-card.featured { border-color: var(--green); background: var(--paper); }
+.price-badge {
+  position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+  background: var(--green); color: #fff;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; font-weight: 500;
+  padding: 3px 12px; border-radius: 100px;
+  letter-spacing: 1px; white-space: nowrap;
+  text-transform: uppercase;
+}
+.price-tier {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  color: var(--muted); letter-spacing: 1.5px;
+  text-transform: uppercase; margin-bottom: 10px;
+}
+.price-amount {
+  font-family: 'Fraunces', serif;
+  font-size: 42px; font-weight: 700;
+  color: var(--ink); line-height: 1; margin-bottom: 4px;
+}
+.price-amount span { font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--muted); font-weight: 400; }
+.price-desc { font-size: 13px; color: var(--muted); margin: 8px 0 20px; line-height: 1.6; }
+.price-features { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 24px; }
+.pf { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; color: var(--muted); line-height: 1.5; }
+.pf::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+.pf.off { opacity: 0.4; }
+.pf.off::before { content: '—'; color: var(--muted-light); }
+.price-btn {
+  width: 100%; padding: 12px;
+  border-radius: 8px; font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: all 0.2s; border: none;
+}
+.price-btn-primary { background: var(--green); color: #fff; }
+.price-btn-primary:hover { background: var(--green-light); }
+.price-btn-outline {
+  background: transparent; color: var(--ink);
+  border: 1px solid var(--border-dark) !important;
+}
+.price-btn-outline:hover { border-color: var(--green) !important; color: var(--green); }
+
+/* ── TESTIMONIALS ── */
+.testimonials { padding: 90px 0; }
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 48px; }
+.testi {
+  background: var(--paper-2);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px;
+  transition: all 0.2s;
+}
+.testi:hover { border-color: var(--green-border); background: var(--green-pale); }
+.testi-stars { color: var(--green); font-size: 12px; margin-bottom: 12px; letter-spacing: 2px; }
+.testi-quote { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 18px; font-style: italic; }
+.testi-author { display: flex; align-items: center; gap: 10px; }
+.testi-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--green-pale);
+  border: 1px solid var(--green-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--green);
+}
+.testi-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+.testi-role { font-size: 11px; color: var(--muted-light); }
+
+/* ── FINAL CTA ── */
+.final { padding: 100px 0; text-align: center; }
+.final h2 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(28px, 5vw, 50px);
+  font-weight: 900; line-height: 1.1;
+  letter-spacing: -1.5px; margin-bottom: 16px;
+}
+.final h2 em { font-style: italic; color: var(--green); }
+.final p { font-size: 16px; color: var(--muted); margin-bottom: 36px; }
+.final-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; max-width: 440px; margin: 0 auto 12px; }
+.final-input {
+  flex: 1; min-width: 200px;
+  background: var(--paper-2);
+  border: 1px solid var(--border-dark);
+  border-radius: 8px; padding: 13px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; color: var(--ink);
+  outline: none; transition: border-color 0.2s;
+}
+.final-input:focus { border-color: var(--green); }
+.final-input::placeholder { color: var(--muted-light); }
+.final-btn {
+  background: var(--ink); color: var(--paper);
+  border: none; border-radius: 8px;
+  padding: 13px 22px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.final-btn:hover { background: var(--green); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 0; position: relative; z-index: 1;
+}
+.footer-inner {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+}
+.footer-copy { font-size: 12px; color: var(--muted-light); }
+.footer-links { display: flex; gap: 20px; }
+.footer-links a { font-size: 12px; color: var(--muted-light); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--green); }
+
+/* ── ANIMATIONS ── */
+.fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .steps-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .testi-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .signup-row { flex-direction: column; }
+  .container, .container-sm { padding: 0 18px; }
+  .hero { padding: 110px 0 60px; }
+}
+
+/* ── ADMIN DASHBOARD STYLES ── */
+.admin-panel {
+  display: none;
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  align-items: center; justify-content: center;
+}
+.admin-panel.open { display: flex; }
+.admin-box {
+  background: var(--paper);
+  border-radius: 16px; padding: 32px;
+  width: 90%; max-width: 800px;
+  max-height: 85vh; overflow-y: auto;
+}
+.admin-box h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 22px; font-weight: 700;
+  margin-bottom: 24px; color: var(--ink);
+}
+.admin-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 12px; margin-bottom: 28px;
+}
+.admin-stat {
+  background: var(--paper-2);
+  border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px;
+  text-align: center;
+}
+.admin-stat-num {
+  font-family: 'Fraunces', serif;
+  font-size: 28px; font-weight: 700;
+  color: var(--green);
+}
+.admin-stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; font-family: 'DM Mono', monospace; letter-spacing: 0.5px; }
+.admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.admin-table th {
+  text-align: left; padding: 10px 12px;
+  background: var(--paper-2); color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+.admin-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--ink); }
+.admin-table tr:hover td { background: var(--paper-2); }
+.plan-badge {
+  display: inline-block; padding: 2px 8px;
+  border-radius: 4px; font-size: 10px; font-weight: 600;
+  font-family: 'DM Mono', monospace; letter-spacing: 0.5px;
+}
+.plan-free { background: var(--paper-3); color: var(--muted); }
+.plan-pro { background: var(--green-pale); color: var(--green); }
+.plan-teams { background: rgba(59,130,246,0.1); color: #2563EB; }
+.admin-close {
+  position: absolute; top: 16px; right: 16px;
+  background: none; border: none; font-size: 20px;
+  cursor: pointer; color: var(--muted);
+}
+.admin-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.admin-btn {
+  padding: 9px 16px; border-radius: 7px;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  border: 1px solid var(--border-dark);
+  background: var(--paper-2); color: var(--ink);
+  transition: all 0.2s;
+}
+.admin-btn:hover { background: var(--green-pale); border-color: var(--green); color: var(--green); }
+.admin-btn-primary { background: var(--green); color: #fff; border-color: var(--green); }
+.admin-btn-primary:hover { background: var(--green-light); color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">Brief<span style="color:var(--green)">Leap</span><span class="logo-dot"></span></a>
+    <div class="nav-links">
+      <a href="#how" class="nav-link">How it works</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="#waitlist" class="nav-cta" onclick="trackEvent('nav_cta_click', {location:'nav'})">Join Waitlist</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
+      <div>
+        <div class="hero-tag fade-up"><span class="tag-dot"></span> Waitlist Now Open</div>
+        <h1 class="fade-up delay-1">Get your weekly AI brief.<br><em>Then leap ahead.</em></h1>
+        <p class="hero-sub fade-up delay-2">BriefLeap delivers AI intelligence personalized to your role — not generic news, but specific insights on what AI means for how <em>you</em> work this week.</p>
+
+        <!-- SIGNUP BOX -->
+        <div class="signup-box fade-up delay-3" id="waitlist">
+          <span class="signup-label">Join the waitlist</span>
+          <select class="signup-select" id="hero-role">
+            <option value="" disabled selected>Select your role</option>
+            <option value="business_analyst">Business Analyst</option>
+            <option value="consultant">Consultant</option>
+            <option value="designer">Designer / Creative</option>
+            <option value="developer">Software Developer</option>
+            <option value="executive">Executive / Founder</option>
+            <option value="finance">Finance / Analyst</option>
+            <option value="freelancer">Freelancer</option>
+            <option value="hr">HR / People Ops</option>
+            <option value="legal">Legal / Compliance</option>
+            <option value="marketer">Marketing Director</option>
+            <option value="operations">Operations Manager</option>
+            <option value="product_manager">Product Manager</option>
+            <option value="project_manager">Project Manager</option>
+            <option value="student">Student</option>
+          </select>
+          <select class="signup-select" id="hero-plan">
+            <option value="" disabled selected>Choose your plan</option>
+            <option value="free">Free — Top 3 items/week</option>
+            <option value="pro">Pro — $9/mo (Founding rate)</option>
+            <option value="teams">Teams — $29/user/mo</option>
+          </select>
+          <div class="signup-row">
+            <input type="email" class="signup-input" id="hero-email" placeholder="Your email">
+            <button class="signup-btn" style="width:auto;padding:13px 20px;" onclick="handleHeroSignup()">Join →</button>
+          </div>
+          <div class="signup-success" id="hero-success">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#2D9E6E" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="#2D9E6E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            You're on the list! First edition lands soon.
+          </div>
+          <p class="signup-note">No spam. Unsubscribe anytime. Founding rate locked forever.</p>
+        </div>
+
+        <!-- PROOF -->
+        <div class="proof-bar fade-up delay-3">
+          <div class="proof-item">
+            <div class="proof-check"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#1A6B4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="proof-text">Free to start</span>
+          </div>
+          <div class="proof-item">
+            <div class="proof-check"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#1A6B4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="proof-text">10 role profiles</span>
+          </div>
+          <div class="proof-item">
+            <div class="proof-check"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#1A6B4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="proof-text">Every Monday</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIGEST PREVIEW -->
+      <div class="fade-up delay-2" style="position:relative;">
+        <div class="preview-inner">
+          <div class="preview-bar">
+            <div class="preview-dots"><div class="pd pd-r"></div><div class="pd pd-y"></div><div class="pd pd-g"></div></div>
+            <div class="preview-subject">BriefLeap Weekly — Your Role Edition</div>
+          </div>
+          <div class="preview-body">
+            <div class="preview-meta">
+              <span class="preview-from">BRIEFLEAP // WEEKLY</span>
+              <span class="preview-date">Mon, Mar 10, 2026</span>
+            </div>
+            <div class="preview-title">AI This Week for Product Managers</div>
+            <div class="preview-badge">📊 PRODUCT MANAGER · TECH</div>
+            <div class="preview-item">
+              <div class="preview-item-head">
+                <div class="preview-item-title">OpenAI releases autonomous task API for enterprise</div>
+                <span class="preview-tag">HIGH</span>
+              </div>
+              <div class="preview-what">New Operator API lets AI complete multi-step workflows end-to-end without human input — from form filling to web research.</div>
+              <div class="preview-sowhat"><strong>So what for PMs →</strong>Audit your highest-friction user journeys. This is the tool to eliminate them. Start with your onboarding flow this week.</div>
+            </div>
+            <div class="preview-item">
+              <div class="preview-item-head">
+                <div class="preview-item-title">Claude processes 500-page docs in seconds</div>
+                <span class="preview-tag">MEDIUM</span>
+              </div>
+              <div class="preview-what">Extended context now handles full research reports, spec docs, and interview transcripts in a single prompt.</div>
+              <div class="preview-sowhat"><strong>So what for PMs →</strong>Paste 3 months of user feedback and ask Claude to surface the top 5 unmet needs. Try it today.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="how" id="how">
+  <div class="container">
+    <span class="section-tag fade-up">How It Works</span>
+    <h2 class="section-title fade-up">From AI noise to your weekly leap.</h2>
+    <p class="section-sub fade-up">Four steps from raw AI chaos to role-specific intelligence in your inbox every Monday.</p>
+    <div class="steps-grid">
+      <div class="step fade-up">
+        <span class="step-num">STEP 01</span>
+        <h3>Set your role & industry</h3>
+        <p>Tell us your job function and industry once. BriefLeap builds a profile that shapes everything you receive.</p>
+      </div>
+      <div class="step fade-up delay-1">
+        <span class="step-num">STEP 02</span>
+        <h3>We monitor 20+ sources daily</h3>
+        <p>AI labs, research papers, industry blogs — filtered and scored for relevance to your specific role.</p>
+      </div>
+      <div class="step fade-up delay-2">
+        <span class="step-num">STEP 03</span>
+        <h3>The "So What" layer</h3>
+        <p>Every item is translated for your role. Not just what happened — but what it means for how you work this week.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══ DIGEST PREVIEW FULL ═══ -->
+<section class="preview">
+  <div class="container">
+    <span class="section-tag fade-up">Sample Edition</span>
+    <h2 class="section-title fade-up">This is what lands in your inbox.</h2>
+    <p class="section-sub fade-up">Clean. Scannable. Role-specific. Read in 5 minutes. Ahead for 7 days.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══ PRICING ═══ -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <span class="section-tag fade-up">Pricing</span>
+    <h2 class="section-title fade-up">Simple, honest pricing.</h2>
+    <p class="section-sub fade-up">Start free. Founding members lock in 40% off Pro forever. First 50 only.</p>
+
+    <div class="pricing-grid">
+      <!-- FREE -->
+      <div class="price-card fade-up">
+        <div class="price-tier">Free</div>
+        <div class="price-amount">$0<span>/month</span></div>
+        <div class="price-desc">Try BriefLeap. Experience the role-based difference before committing.</div>
+        <ul class="price-features">
+          <li class="pf">Weekly digest — top 3 items</li>
+          <li class="pf">1 role profile</li>
+          <li class="pf">Email delivery</li>
+          <li class="pf off">Full personalization</li>
+          <li class="pf off">All topics & sources</li>
+          <li class="pf off">Saved items library</li>
+        </ul>
+        <button class="price-btn price-btn-outline" onclick="selectPlan('free')">Get Started Free</button>
+      </div>
+
+      <!-- PRO -->
+      <div class="price-card featured fade-up delay-1">
+        <div class="price-badge">🔥 Founding Rate</div>
+        <div class="price-tier">Pro</div>
+        <div class="price-amount">$9<span>/month</span></div>
+        <div class="price-desc">Full intelligence platform. <s style="color:var(--muted-light);font-size:13px;">$15/mo</s> — locked forever for first 50.</div>
+        <ul class="price-features">
+          <li class="pf">Full digest — all items</li>
+          <li class="pf">Deep role personalization</li>
+          <li class="pf">All topics & sources</li>
+          <li class="pf">Saved items & history</li>
+          <li class="pf">Web dashboard access</li>
+          <li class="pf">Priority feature access</li>
+        </ul>
+        <button class="price-btn price-btn-primary" onclick="selectPlan('pro')">Claim Founding Rate →</button>
+      </div>
+
+      <!-- TEAMS -->
+      <div class="price-card fade-up delay-2">
+        <div class="price-tier">Teams</div>
+        <div class="price-amount">$29<span>/user/mo</span></div>
+        <div class="price-desc">Build AI literacy across your team. Admin dashboard included. Min 5 seats.</div>
+        <ul class="price-features">
+          <li class="pf">Everything in Pro</li>
+          <li class="pf">Team admin dashboard</li>
+          <li class="pf">Role coverage analytics</li>
+          <li class="pf">Custom role profiles</li>
+          <li class="pf">Slack integration</li>
+          <li class="pf">Dedicated onboarding</li>
+        </ul>
+        <button class="price-btn price-btn-outline" onclick="selectPlan('teams')">Contact for Teams</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══ ILLUSTRATIVE VALUE SECTION ═══ -->
+<section class="testimonials">
+  <div class="container">
+    <span class="section-tag fade-up">What To Expect</span>
+    <h2 class="section-title fade-up">The value BriefLeap is built to deliver.</h2>
+
+    <!-- Honest disclosure banner -->
+    <div class="fade-up" style="
+      display:flex; align-items:flex-start; gap:12px;
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 36px;
+      max-width: 680px;
+    ">
+      <span style="font-size:16px; flex-shrink:0; margin-top:1px;">💡</span>
+      <p style="font-size:13px; color:#92600A; line-height:1.65; margin:0;">
+        <strong style="display:block; margin-bottom:2px;">Illustrative examples — not verified reviews.</strong>
+        BriefLeap is pre-launch. The scenarios below represent the type of value our early subscribers can expect based on the product we're building. Real reviews will replace these once we launch.
+      </p>
+    </div>
+
+    <div class="testi-grid">
+      <div class="testi fade-up">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:var(--muted-light); letter-spacing:1px; text-transform:uppercase; margin-bottom:12px;">Illustrative · Product Manager</div>
+        <p class="testi-quote">"Finally an AI digest where every item connects directly to my work. The 'So What' layer means I'm not just informed — I know exactly what to do next."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">PM</div>
+          <div>
+            <div class="testi-name">Senior Product Manager</div>
+            <div class="testi-role">Series B SaaS Company</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi fade-up delay-1">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:var(--muted-light); letter-spacing:1px; text-transform:uppercase; margin-bottom:12px;">Illustrative · Marketing Director</div>
+        <p class="testi-quote">"When my CEO asks about AI strategy, I'm no longer scrambling. My Monday brief gives me a clear, role-specific view of what's changing and what it means for our team."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">MD</div>
+          <div>
+            <div class="testi-name">Marketing Director</div>
+            <div class="testi-role">Mid-size B2B Company</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi fade-up delay-2">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:var(--muted-light); letter-spacing:1px; text-transform:uppercase; margin-bottom:12px;">Illustrative · VP Operations</div>
+        <p class="testi-quote">"The role-specific framing is the difference. Generic AI news is noise. A brief that speaks directly to operations challenges is something I'd share with my whole team."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">VP</div>
+          <div>
+            <div class="testi-name">VP Operations</div>
+            <div class="testi-role">Operations & Logistics</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Invitation to be a real reviewer -->
+    <div class="fade-up" style="
+      margin-top: 28px;
+      text-align: center;
+      padding: 24px;
+      border: 1px dashed var(--green-border);
+      border-radius: 12px;
+      background: var(--green-pale);
+      max-width: 540px;
+      margin-left: auto; margin-right: auto;
+    ">
+      <p style="font-size:14px; color:var(--green); font-weight:600; margin-bottom:6px;">Want to be one of our first real reviewers?</p>
+      <p style="font-size:13px; color:#4A7A65; line-height:1.6; margin-bottom:16px;">Join the waitlist and we'll send you a free early edition. Your honest feedback shapes the product — and your review replaces this one.</p>
+      <a href="#waitlist" style="
+        display:inline-block;
+        background: var(--green); color:#fff;
+        padding: 10px 22px; border-radius:7px;
+        font-size:13px; font-weight:600;
+        text-decoration:none;
+        transition: background 0.2s;
+      " onclick="trackEvent('illustrative_cta_click', {location:'social_proof'})">Join the waitlist →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINAL CTA ═══ -->
+<section class="final">
+  <div class="container-sm">
+    <h2 class="fade-up">Your role is changing.<br><em>Leap ahead of it.</em></h2>
+    <p class="fade-up delay-1">Join professionals getting role-specific AI intelligence every Monday. Free to start.</p>
+    <div class="final-form fade-up delay-2">
+      <input type="email" class="final-input" id="final-email" placeholder="Your email">
+      <button class="final-btn" onclick="handleFinalSignup()">Join Free →</button>
+    </div>
+    <p style="font-size:11px;color:var(--muted-light);font-family:'DM Mono',monospace;" class="fade-up delay-2">NO CREDIT CARD · NO SPAM · UNSUBSCRIBE ANYTIME</p>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <span class="footer-copy">© 2026 BriefLeap. Built for professionals who refuse to fall behind.</span>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#" onclick="openAdmin()">Admin</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ ADMIN DASHBOARD ═══ -->
+<div class="admin-panel" id="admin-panel">
+  <div class="admin-box" style="position:relative;">
+    <button class="admin-close" onclick="closeAdmin()">✕</button>
+    <h2>📊 BriefLeap — Signups Dashboard</h2>
+
+    <div class="admin-stats">
+      <div class="admin-stat">
+        <div class="admin-stat-num" id="stat-total">0</div>
+        <div class="admin-stat-label">Total Signups</div>
+      </div>
+      <div class="admin-stat">
+        <div class="admin-stat-num" id="stat-free">0</div>
+        <div class="admin-stat-label">Free Plan</div>
+      </div>
+      <div class="admin-stat">
+        <div class="admin-stat-num" id="stat-pro">0</div>
+        <div class="admin-stat-label">Pro Plan</div>
+      </div>
+      <div class="admin-stat">
+        <div class="admin-stat-num" id="stat-teams">0</div>
+        <div class="admin-stat-label">Teams Plan</div>
+      </div>
+    </div>
+
+    <table class="admin-table" id="admin-table">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Plan</th>
+          <th>Source</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody id="admin-tbody">
+        <tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px;">No signups yet. Share your page to get started.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="admin-actions">
+      <button class="admin-btn admin-btn-primary" onclick="exportCSV()">⬇ Export CSV</button>
+      <button class="admin-btn" onclick="clearData()">🗑 Clear All Data</button>
+      <button class="admin-btn" onclick="closeAdmin()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  BRIEFLEAP — TRACKING & MAILING LIST SYSTEM
+// ═══════════════════════════════════════════════════════════
+
+// ── STORAGE KEY ──
+const STORAGE_KEY = 'briefleap_signups';
+
+// ── GET ALL SIGNUPS ──
+function getSignups() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch { return []; }
+}
+
+// ── SAVE SIGNUP ──
+function saveSignup(data) {
+  const signups = getSignups();
+  // Prevent duplicate emails
+  if (signups.find(s => s.email === data.email)) {
+    return { success: false, message: 'This email is already on the list!' };
+  }
+  signups.push({
+    id: Date.now(),
+    email: data.email,
+    role: data.role || 'not_specified',
+    plan: data.plan || 'free',
+    source: sessionStorage.getItem('utm_source') || 'direct',
+    medium: sessionStorage.getItem('utm_medium') || 'none',
+    campaign: sessionStorage.getItem('utm_campaign') || 'none',
+    timestamp: new Date().toISOString(),
+    date: new Date().toLocaleDateString()
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(signups));
+  return { success: true };
+}
+
+// ── HERO SIGNUP ──
+function handleHeroSignup() {
+  const email = document.getElementById('hero-email').value.trim();
+  const role = document.getElementById('hero-role').value;
+  const plan = document.getElementById('hero-plan').value;
+
+  // Validate
+  if (!email || !email.includes('@')) {
+    document.getElementById('hero-email').style.borderColor = '#EF4444';
+    document.getElementById('hero-email').focus();
+    return;
+  }
+  document.getElementById('hero-email').style.borderColor = '';
+
+  // Save locally
+  const result = saveSignup({ email, role, plan: plan || 'free' });
+
+  // Track in Google Analytics
+  trackEvent('signup', {
+    plan: plan || 'free',
+    role: role || 'not_specified',
+    location: 'hero',
+    source: sessionStorage.getItem('utm_source') || 'direct'
+  });
+
+  // Track plan-specific events
+  if (plan === 'pro') trackEvent('pro_plan_interest', { email_captured: true });
+  if (plan === 'teams') trackEvent('teams_plan_interest', { email_captured: true });
+
+  // Facebook Pixel
+  if (typeof fbq !== 'undefined') {
+    fbq('track', 'Lead', { plan: plan || 'free' });
+  }
+
+  // Send to Mailchimp (replace URL with your actual endpoint)
+  sendToMailchimp(email, role, plan || 'free');
+
+  // Show success
+  const successEl = document.getElementById('hero-success');
+  successEl.classList.add('show');
+  successEl.querySelector('span') && (successEl.lastChild.textContent =
+    result.success ? ' You\'re on the list! First edition lands soon.' : ' ' + result.message);
+
+  // Reset button
+  const btn = document.querySelector('.signup-btn');
+  btn.textContent = '✓ Done';
+  btn.style.background = '#1A6B4A';
+}
+
+// ── SELECT PLAN FROM PRICING SECTION ──
+function selectPlan(plan) {
+  // Scroll to waitlist
+  document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
+  // Pre-select plan
+  setTimeout(() => {
+    const planSelect = document.getElementById('hero-plan');
+    if (plan === 'free') planSelect.value = 'free';
+    if (plan === 'pro') planSelect.value = 'pro';
+    if (plan === 'teams') planSelect.value = 'teams';
+    document.getElementById('hero-email').focus();
+  }, 600);
+  // Track
+  trackEvent('plan_selected', { plan, location: 'pricing_section' });
+}
+
+// ── FINAL CTA SIGNUP ──
+function handleFinalSignup() {
+  const email = document.getElementById('final-email').value.trim();
+  if (!email || !email.includes('@')) {
+    document.getElementById('final-email').style.borderColor = '#EF4444';
+    return;
+  }
+  document.getElementById('final-email').style.borderColor = '';
+  saveSignup({ email, plan: 'free', role: 'not_specified' });
+  trackEvent('signup', { plan: 'free', location: 'final_cta' });
+  sendToMailchimp(email, '', 'free');
+  const btn = document.querySelector('.final-btn');
+  btn.textContent = '✓ You\'re in!';
+  btn.style.background = '#1A6B4A';
+}
+
+// ── MAILCHIMP INTEGRATION ──
+// Replace YOUR_MAILCHIMP_URL with your actual Mailchimp form action URL
+// Get it from: Mailchimp → Audience → Signup Forms → Embedded Forms → copy action URL
+function sendToMailchimp(email, role, plan) {
+  const MAILCHIMP_URL = 'https://assets.mailerlite.com/jsonp/2195350/forms/182093299806372943/subscribe" data-code="" method="post" target="_blank'; // ← REPLACE THIS
+
+  if (MAILCHIMP_URL === 'YOUR_MAILCHIMP_URL') {
+    console.log('[Mailchimp] Not configured yet. Signup saved locally:', { email, role, plan });
+    return;
+  }
+
+  // Mailchimp uses JSONP for cross-origin requests
+  const url = MAILCHIMP_URL.replace('/post?', '/post-json?') +
+    `&EMAIL=${encodeURIComponent(email)}` +
+    `&ROLE=${encodeURIComponent(role)}` +
+    `&PLAN=${encodeURIComponent(plan)}` +
+    `&c=mailchimpCallback`;
+
+  const script = document.createElement('script');
+  script.src = url;
+  document.body.appendChild(script);
+  setTimeout(() => document.body.removeChild(script), 3000);
+}
+
+window.mailchimpCallback = function(data) {
+  console.log('[Mailchimp]', data.result, data.msg);
+};
+
+// ── ADMIN DASHBOARD ──
+function openAdmin() {
+  const pw = prompt('Admin password:');
+  if (pw !== 'Rainsteiger93') return; // ← CHANGE THIS PASSWORD
+  refreshAdmin();
+  document.getElementById('admin-panel').classList.add('open');
+}
+
+function closeAdmin() {
+  document.getElementById('admin-panel').classList.remove('open');
+}
+
+function refreshAdmin() {
+  const signups = getSignups();
+  // Stats
+  document.getElementById('stat-total').textContent = signups.length;
+  document.getElementById('stat-free').textContent = signups.filter(s => s.plan === 'free').length;
+  document.getElementById('stat-pro').textContent = signups.filter(s => s.plan === 'pro').length;
+  document.getElementById('stat-teams').textContent = signups.filter(s => s.plan === 'teams').length;
+
+  // Table
+  const tbody = document.getElementById('admin-tbody');
+  if (signups.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px;">No signups yet.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = signups.slice().reverse().map(s => `
+    <tr>
+      <td>${s.email}</td>
+      <td style="color:var(--muted);font-size:12px;">${s.role.replace('_', ' ')}</td>
+      <td><span class="plan-badge plan-${s.plan}">${s.plan.toUpperCase()}</span></td>
+      <td style="color:var(--muted);font-size:11px;font-family:'DM Mono',monospace;">${s.source}</td>
+      <td style="color:var(--muted);font-size:12px;">${s.date}</td>
+    </tr>
+  `).join('');
+}
+
+function exportCSV() {
+  const signups = getSignups();
+  if (!signups.length) { alert('No signups to export yet.'); return; }
+  const headers = ['Email', 'Role', 'Plan', 'Source', 'Medium', 'Campaign', 'Date'];
+  const rows = signups.map(s => [
+    s.email, s.role, s.plan, s.source, s.medium, s.campaign, s.date
+  ]);
+  const csv = [headers, ...rows].map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `briefleap-signups-${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+  trackEvent('admin_export_csv', { count: signups.length });
+}
+
+function clearData() {
+  if (!confirm('Delete ALL signup data? This cannot be undone.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  refreshAdmin();
+}
+
+// ── NAV SCROLL ──
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+// ── FADE UP OBSERVER ──
+const observer = new IntersectionObserver(
+  entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+  { threshold: 0.08 }
+);
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+setTimeout(() => document.querySelectorAll('.hero .fade-up').forEach((el, i) => {
+  setTimeout(() => el.classList.add('visible'), i * 120);
+}), 100);
+
+// ── ENTER KEY ──
+document.getElementById('hero-email').addEventListener('keydown', e => { if (e.key === 'Enter') handleHeroSignup(); });
+document.getElementById('final-email').addEventListener('keydown', e => { if (e.key === 'Enter') handleFinalSignup(); });
+
+// ── CLOSE ADMIN ON ESC ──
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAdmin(); });
+</script>
+
+<!--
+═══════════════════════════════════════════════════════════════
+  BRIEFLEAP — SETUP GUIDE
+  Complete these 4 steps before going live
+═══════════════════════════════════════════════════════════════
+
+  STEP 1 — GOOGLE ANALYTICS (Free)
+  ─────────────────────────────────
+  1. Go to analytics.google.com
+  2. Create account → Property → Web stream
+  3. Copy your Measurement ID (G-XXXXXXXXXX)
+  4. Replace both instances of G-XXXXXXXXXX in this file
+
+  What gets tracked automatically:
+  ✓ Every page visit (with UTM source)
+  ✓ Every signup (with plan + role + location)
+  ✓ Pro plan interest clicks
+  ✓ Teams plan interest clicks
+  ✓ Pricing section plan selections
+  ✓ Traffic source attribution (LinkedIn, Reddit, etc.)
+
+  UTM tracking examples:
+  briefleap.com?utm_source=linkedin&utm_medium=post&utm_campaign=launch
+  briefleap.com?utm_source=reddit&utm_medium=community&utm_campaign=pm_post
+
+
+  STEP 2 — FACEBOOK PIXEL (Optional)
+  ─────────────────────────────────
+  1. Go to business.facebook.com → Events Manager
+  2. Create pixel → copy Pixel ID
+  3. Replace YOUR_PIXEL_ID in this file
+
+
+  STEP 3 — MAILCHIMP MAILING LIST (Free up to 500 contacts)
+  ──────────────────────────────────────────────────────────
+  1. Create free account at mailchimp.com
+  2. Create Audience → Add merge fields: ROLE, PLAN
+  3. Go to Audience → Signup Forms → Embedded Forms
+  4. Copy the form "action" URL (looks like:
+     https://yourname.us1.list-manage.com/subscribe/post?u=xxx&id=xxx)
+  5. Replace YOUR_MAILCHIMP_URL in this file
+
+  Users will be tagged with their role + plan automatically.
+  This lets you segment emails by:
+  - Free vs Pro vs Teams users
+  - Role (PM, Marketer, Developer, etc.)
+  - Traffic source
+
+
+  STEP 4 — CHANGE ADMIN PASSWORD
+  ─────────────────────────────────
+  Find this line: if (pw !== 'briefleap2026')
+  Replace briefleap2026 with your own password
+
+  Admin dashboard features:
+  ✓ Live signup counts by plan
+  ✓ Full signup list with role + plan + source
+  ✓ One-click CSV export for importing to Mailchimp
+  ✓ Built-in duplicate email prevention
+
+  Access it: Go to briefleap.com → Footer → Admin
+
+
+  STEP 5 — DEPLOY FOR FREE
+  ─────────────────────────────────
+  Option A — Netlify (easiest, 2 minutes):
+  1. Go to netlify.com
+  2. Drag and drop this HTML file
+  3. Get live URL instantly
+
+  Option B — GitHub Pages (free custom domain):
+  1. Create GitHub repo
+  2. Upload this file as index.html
+  3. Settings → Pages → Enable
+  4. Add custom domain (briefleap.com)
+
+═══════════════════════════════════════════════════════════════
+-->
+
+</body>
+</html>
